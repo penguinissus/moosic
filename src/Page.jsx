@@ -106,16 +106,24 @@ function Page() {
     return (
         <>
             <h1>Moosic</h1>
-            <div className="webcam-container">
+            <div className="webcam-container" style={{ position: 'relative', width: '640px', height: '480px' }}>
                 <Webcam 
                     ref={webcamRef} 
                     mirrored={true}
                     videoConstraints={{ width: 640, height: 480 }}
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                 />
                 <canvas 
                     ref={canvasRef} 
                     width={640}
                     height={480}
+                    style={{ 
+                        position: 'absolute', 
+                        top: 0, left: 0, 
+                        width: '100%', height: '100%', 
+                        zIndex: 2,
+                        transform: 'scaleX(-1)' // Synchronizes canvas coordinate drawings with Webcam mirroring
+                    }}
                 />
             </div>
             <p>Hand: </p>
