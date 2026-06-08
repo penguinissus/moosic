@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Webcam from "react-webcam";
 import { FilesetResolver, HandLandmarker } from '@mediapipe/tasks-vision';
 import './Page.css';
@@ -19,10 +19,51 @@ const HAND_CONNECTIONS = [
     { from: 5, to: 9 }, { from: 9, to: 13 }, { from: 13, to: 17 }
 ];
 
+// Function that doesn't freaking work
+// function calculateHandVectors(landmarkData) {
+//     console.log("landmarkData: ", landmarkData);
+//     console.log("landmarkData[0]: ", landmarkData?.[0]);
+//     if (!landmarkData || landmarkData.length === 0) return [];
+//     return landmarkData
+//         .filter(landmarks => landmarks != null)
+//         .map(landmarks => {
+//             HAND_CONNECTIONS.map((connection) => {
+//                 const start = landmarks[connection.from];
+//                 const end = landmarks[connection.to];
+//                 if (!start || !end) return [0,0];
+//                 return [end.x - start.x, end.y - start.y];
+//             })
+//         });
+// }
+
+function isClosedFist(landmarkData) {
+    if (!landmarkData || landmarkData.length === 0) return false;
+    const landmarks = landmarkData[0];
+    if (!landmarks) return false;
+    const ref = landmarks[5];
+    const thumb = landmarks[4]
+    const index = landmarks [8];
+    const middle = landmarks[12];
+    const ring = landmarks[16];
+    const pinky = landmarks[20];
+
+    if(!ref || !thumb || !index || !middle || !ring || !pinky) return 0;
+
+    //yay
+    if(thumb.y>ref.y && ring.y>ref.y && pinky.y>ref.y && index.y < ref.y && middle.y <ref.y){
+        return 1;
+    }
+
+    return 2;
+}
+
 function Page() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const landmarkerRef = useRef(null);
+    const [landmarkData, setLandmarkData] = useState(null);
+
+    // const vectors = [];
 
     useEffect(() => {
         async function initMediaPipe() {
@@ -71,9 +112,11 @@ function Page() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (detections.landmarks && detections.landmarks.length > 0) {
+                setLandmarkData(detections.landmarks);
                 for (const landmarks of detections.landmarks) {
                     
                     // 1. Draw Skeleton Joint Connective Line Segments First
+                    // const count = 0;
                     HAND_CONNECTIONS.forEach((connection) => {
                         const start = landmarks[connection.from];
                         const end = landmarks[connection.to];
@@ -86,6 +129,8 @@ function Page() {
                             ctx.lineWidth = 3;
                             ctx.stroke();
                         }
+                        // vectors[count] = [(start.x-end.x), (start.y-end.y)];
+                        // count++;
                     });
 
                     // 2. Draw Vector Circle Nodes Over Top of Joint Points
@@ -94,6 +139,10 @@ function Page() {
                         ctx.arc(point.x * canvas.width, point.y * canvas.height, 4, 0, 2 * Math.PI);
                         ctx.fillStyle = "#ADD8E6"; // Distinct Red Node Knuckle Points
                         ctx.fill();
+
+                        // ctx.fillStyle = "white";
+                        // ctx.font = "12px Arial";
+                        // ctx.fillText(index, point.x * canvas.width + 6, point.y * canvas.height - 6);
                     });
                 }
             }
@@ -126,7 +175,10 @@ function Page() {
                     }}
                 />
             </div>
-            <p>Hand: </p>
+            {/* <pre>{JSON.stringify(vectors, null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(calculateHandVectors(landmarkData), null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(landmarkData, null, 2)}</pre> */}
+            <pre>{isClosedFist(landmarkData)}</pre>
         </>
     );
 }
