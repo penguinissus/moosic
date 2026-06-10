@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from 'react';
 import Webcam from "react-webcam";
 import { FilesetResolver, HandLandmarker } from '@mediapipe/tasks-vision';
 import './Page.css';
+import Otherbox from './Otherbox.jsx';
+import Thirdbox from './Thirdbox.jsx';
 
 // MediaPipe Hand tracking indices mapping layout array
 const HAND_CONNECTIONS = [
@@ -19,8 +21,8 @@ const HAND_CONNECTIONS = [
     { from: 5, to: 9 }, { from: 9, to: 13 }, { from: 13, to: 17 }
 ];
 
-const CAM_WIDTH = 900;
-const CAM_HEIGHT = 500;
+const CAM_WIDTH = 640;
+const CAM_HEIGHT = 480;
 
 // Function that doesn't freaking work
 // function calculateHandVectors(landmarkData) {
@@ -160,33 +162,43 @@ function Page() {
 
     return (
         <div class="Page">
-            <div className="webcam-container" style={{ position: 'relative', width: '640px', height: '480px' }}>
-                <Webcam 
-                    ref={webcamRef} 
-                    mirrored={true}
-                    videoConstraints={{ width: CAM_WIDTH, height: CAM_HEIGHT }}
-                    onUserMediaError={(e) => console.error("Webcam error: ", e)}
-                    onUserMedia={() => console.log("Webcam OK")}
-                    style={{
-                        position: 'absolute', 
-                        top: 0, left: 0, 
-                        width: '${CAM_WIDTH}px', 
-                        height: '${CAM_HEIGHT}px' }}
-                />
-                <canvas 
-                    ref={canvasRef} 
-                    width={CAM_WIDTH}
-                    height={CAM_HEIGHT}
-                    style={{ 
-                        position: 'absolute', 
-                        top: 0, left: 0, 
-                        width: '100%', height: '100%', 
-                        zIndex: 2,
-                        transform: 'scaleX(-1)' // Synchronizes canvas coordinate drawings with Webcam mirroring
-                    }}
-                />
+            <Otherbox />
+            <div className="otherstuff">
+                <div className="thirdBox">
+                    <Thirdbox />
+                </div>
+                <div className="webcamAndText">
+                    <div className="webcam-container" style={{ position: 'relative', width: '640px', height: '480px' }}>
+                        <Webcam 
+                            ref={webcamRef} 
+                            mirrored={true}
+                            videoConstraints={{ width: CAM_WIDTH, height: CAM_HEIGHT }}
+                            onUserMediaError={(e) => console.error("Webcam error: ", e)}
+                            onUserMedia={() => console.log("Webcam OK")}
+                            style={{
+                                position: 'absolute', 
+                                top: 0, left: 0, 
+                                width: '${CAM_WIDTH}px', 
+                                height: '${CAM_HEIGHT}px' }}
+                        />
+                        <canvas 
+                            ref={canvasRef} 
+                            width={CAM_WIDTH}
+                            height={CAM_HEIGHT}
+                            style={{ 
+                                position: 'absolute', 
+                                top: 0, left: 0, 
+                                width: '100%', height: '100%', 
+                                zIndex: 2,
+                                transform: 'scaleX(-1)' // Synchronizes canvas coordinate drawings with Webcam mirroring
+                            }}
+                        />
+                    </div>
+                    <p>hand type: {isClosedFist(landmarkData)}</p>
+                </div>
             </div>
-            <p>hand type: {isClosedFist(landmarkData)}</p>
+            
+            
         </div>
     );
 }

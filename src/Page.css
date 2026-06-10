@@ -1,4 +1,19 @@
 .Page {
+    position: fixed;
+    right: 0;
+    width: 70vw;
+    /* background: yellow; */
+    display: flex;
+    flex-direction: row;
+}
+
+.otherstuff {
+    right: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.webcamAndText {
     display: flex;
     flex-direction: column;
 }

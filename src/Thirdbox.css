@@ -1,0 +1,5 @@
+.Thirdbox {
+    /* background: green; */
+    width: 640px;
+    height: calc(100vh - 550px);
+}

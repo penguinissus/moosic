@@ -8,7 +8,7 @@
 
 .Sidebar {
     width: var(--sidebar-width);
-    background-color: var(--sidebar-bg);
+    /* background-color: var(--sidebar-bg); */
     color: var(--text-colour);
     font-size: var(--font-size);
 
