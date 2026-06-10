@@ -3,7 +3,7 @@ import './Otherbox.css';
 function Otherbox() {
     return(
         <div class="Otherbox">
-            <p>Otherbox</p>
+            <p>Presets</p>
         </div>
     )
 }

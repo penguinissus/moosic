@@ -5,6 +5,14 @@
     /* background: yellow; */
     display: flex;
     flex-direction: row;
+    font-size: 40px;
+}
+
+.Thirdbox {
+    /* background: green; */
+    width: 640px;
+    height: calc(100vh - 460px);
+    /* height: calc(100vh - 550px); */
 }
 
 .otherstuff {

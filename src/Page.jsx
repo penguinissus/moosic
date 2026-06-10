@@ -45,21 +45,106 @@ function isClosedFist(landmarkData) {
     if (!landmarkData || landmarkData.length === 0) return false;
     const landmarks = landmarkData[0];
     if (!landmarks) return false;
-    const ref = landmarks[5];
-    const thumb = landmarks[4]
-    const index = landmarks [8];
+    const thumb = landmarks[4];
+    const thumbbase = landmarks[2];
+    const index = landmarks[8];
+    const indexbase = landmarks[6];
     const middle = landmarks[12];
+    const middlebase = landmarks[10];
     const ring = landmarks[16];
+    const ringbase = landmarks[14];
     const pinky = landmarks[20];
+    const pinkybase = landmarks[18];
 
-    if(!ref || !thumb || !index || !middle || !ring || !pinky) return 0;
+    if(!thumb || !thumbbase || !index || !indexbase || !middle || !middlebase || !ring || !ringbase || !pinky || !pinkybase) return 0;
 
-    //yay
-    if(thumb.y>ref.y && ring.y>ref.y && pinky.y>ref.y && index.y < ref.y && middle.y <ref.y){
-        return 1;
+    //thumb in: thumb.x < thumbbase.x
+    //finger raised: tip.y < base.y
+    if (index.y > indexbase.y && middle.y > middlebase.y && ring.y>ringbase.y){
+        if (indexbase.x > middlebase.x) {
+            //thumb in
+            if(thumb.x < thumbbase.x) {
+                if (pinky.y < pinkybase.y) {
+                    return "C+";
+                }
+                return "C";
+            }
+            if (pinky.y < pinkybase.y) {
+                return "D+;" 
+            }
+            return "D";
+        }
+        //thumb out
+        if(thumb.x < thumbbase.x) {
+            if (pinky.y < pinkybase.y) {
+                return "D+";        
+            }
+            return "D";
+        }
+        if (pinky.y < pinkybase.y) {
+            return "C+";            
+        }
+        return "C";
     }
-
-    return 2;
+    if (index.y < indexbase.y && middle.y > middlebase.y && ring.y > ringbase.y){
+        if (indexbase.x > middlebase.x) {
+            //thumb in
+            if(thumb.x < thumbbase.x) {
+                if (pinky.y < pinkybase.y) {
+                    return "E+";
+                }
+                return "E";
+            }
+            if (pinky.y < pinkybase.y) {
+                return "F+";        
+            }
+            return "F";
+        }
+        //thumb out
+        if(thumb.x < thumbbase.x) {
+            if (pinky.y < pinkybase.y) {
+                return "F+";        
+            }
+            return "F";
+        }
+        if (pinky.y < pinkybase.y) {
+            return "E+";            
+        }
+        return "E";
+    }
+    if (index.y < indexbase.y && middle.y < middlebase.y && ring.y > ringbase.y){
+        if (indexbase.x > middlebase.x) {
+            //thumb in
+            if(thumb.x < thumbbase.x) {
+                if (pinky.y < pinkybase.y) {
+                    return "G+";   
+                }
+                return "G";
+            }
+            if (pinky.y < pinkybase.y) {
+                return "A+";        
+            }
+            return "A";
+        }
+        //thumb out
+        if(thumb.x < thumbbase.x) {
+            if (pinky.y < pinkybase.y) {
+                return "A+";        
+            }
+            return "A";
+        }
+        if (pinky.y < pinkybase.y) {
+            return "G+";            
+        }
+        return "G";
+    }
+    if (index.y < indexbase.y && middle.y < middlebase.y && ring.y < ringbase.y){
+        if (pinky.y < pinkybase.y) {
+            return "B+";            
+        }
+        return "B";
+    }
+    return "everything else";
 }
 
 function Page() {
@@ -164,8 +249,9 @@ function Page() {
         <div class="Page">
             <Otherbox />
             <div className="otherstuff">
-                <div className="thirdBox">
-                    <Thirdbox />
+                <div className="Thirdbox">
+                    <p>Current Note</p>
+                    <p>hand type: {isClosedFist(landmarkData)}</p>
                 </div>
                 <div className="webcamAndText">
                     <div className="webcam-container" style={{ position: 'relative', width: '640px', height: '480px' }}>
@@ -194,7 +280,7 @@ function Page() {
                             }}
                         />
                     </div>
-                    <p>hand type: {isClosedFist(landmarkData)}</p>
+                    {/* <p>hand type: {isClosedFist(landmarkData)}</p> */}
                 </div>
             </div>
             
