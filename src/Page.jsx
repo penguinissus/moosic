@@ -19,6 +19,9 @@ const HAND_CONNECTIONS = [
     { from: 5, to: 9 }, { from: 9, to: 13 }, { from: 13, to: 17 }
 ];
 
+const CAM_WIDTH = 900;
+const CAM_HEIGHT = 500;
+
 // Function that doesn't freaking work
 // function calculateHandVectors(landmarkData) {
 //     console.log("landmarkData: ", landmarkData);
@@ -171,6 +174,9 @@ function Page() {
             const startTimeMs = performance.now();
             const detections = handLandmarker.detectForVideo(video, startTimeMs);
             
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
             // Clear prior vector stroke layouts safely 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -216,19 +222,30 @@ function Page() {
     }
 
     return (
-        <div class="Page">
-            <h1>Moosic</h1>
-            <div className="webcam-container" style={{ position: 'relative', width: '640px', height: '480px' }}>
+        <div className="Page">
+            <div className="webcam-container" style={{
+                position: 'relative', 
+                width: '${CAM_WIDTH}px', 
+                height: '${CAM_HEIGHT}px', 
+                minHeight: '${CAM_HEIGHT}px',
+                flexShrink: 0
+            }}>
                 <Webcam 
                     ref={webcamRef} 
                     mirrored={true}
-                    videoConstraints={{ width: 640, height: 480 }}
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    videoConstraints={{ width: CAM_WIDTH, height: CAM_HEIGHT }}
+                    onUserMediaError={(e) => console.error("Webcam error: ", e)}
+                    onUserMedia={() => console.log("Webcam OK")}
+                    style={{
+                        position: 'absolute', 
+                        top: 0, left: 0, 
+                        width: '${CAM_WIDTH}px', 
+                        height: '${CAM_HEIGHT}px' }}
                 />
                 <canvas 
                     ref={canvasRef} 
-                    width={640}
-                    height={480}
+                    width={CAM_WIDTH}
+                    height={CAM_HEIGHT}
                     style={{ 
                         position: 'absolute', 
                         top: 0, left: 0, 
