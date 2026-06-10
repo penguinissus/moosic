@@ -159,14 +159,9 @@ function Page() {
     }
 
     return (
-        <div className="Page">
-            <div className="webcam-container" style={{
-                position: 'relative', 
-                width: '${CAM_WIDTH}px', 
-                height: '${CAM_HEIGHT}px', 
-                minHeight: '${CAM_HEIGHT}px',
-                flexShrink: 0
-            }}>
+        <>
+            <h1>Moosic</h1>
+            <div className="webcam-container" style={{ position: 'relative', width: '640px', height: '480px' }}>
                 <Webcam 
                     ref={webcamRef} 
                     mirrored={true}
@@ -192,13 +187,11 @@ function Page() {
                     }}
                 />
             </div>
-            <p>hand type: {isClosedFist(landmarkData)}</p>
-        </div>
             {/* <pre>{JSON.stringify(vectors, null, 2)}</pre> */}
             {/* <pre>{JSON.stringify(calculateHandVectors(landmarkData), null, 2)}</pre> */}
             {/* <pre>{JSON.stringify(landmarkData, null, 2)}</pre> */}
-            <pre>{isClosedFist(landmarkData)}</pre>
-        </>
+            <p>hand type: {isClosedFist(landmarkData)}</p>
+        </div>
     );
 }
 
