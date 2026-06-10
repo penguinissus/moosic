@@ -43,84 +43,21 @@ function isClosedFist(landmarkData) {
     if (!landmarkData || landmarkData.length === 0) return false;
     const landmarks = landmarkData[0];
     if (!landmarks) return false;
-    const thumb = landmarks[4];
-    const thumbbase = landmarks[2];
+    const ref = landmarks[5];
+    const thumb = landmarks[4]
     const index = landmarks [8];
-    const indexbase = landmarks[6];
     const middle = landmarks[12];
-    const middlebase = landmarks[10];
     const ring = landmarks[16];
-    const ringbase = landmarks[14];
     const pinky = landmarks[20];
-    const pinkybase = landmarks[18];
 
-    if(!thumb || !thumbbase || !index || !indexbase || !middle || !middlebase || !ring || !ringbase || !pinky || !pinkybase) return "oh no";
-    // thumb open: thumb.x > thumbbase.x
-    // fingers raised: indexbase.y > index.y
-
-    //thumb out
-    if(indexbase.y < index.y && middlebase.y < middle.y && ringbase.y < ring.y){
-        if((indexbase.x > middlebase.x && thumb.x > thumbbase.x) || (indexbase.x < middlebase.x && thumb.x < thumbbase.x)) {
-            if(pinkybase.y < pinky.y){
-                return "thumb out";
-            }
-            return "thumb out pinky up";
-        }
-        if(pinkybase.y < pinky.y){
-            return "thumb in";
-        }
-        return "thumb in pinky up";
-    }
-
-    if(indexbase.y > index.y && middlebase.y < middle.y && ringbase.y < ring.y){
-        if((indexbase.x > middlebase.x && thumb.x > thumbbase.x) || (indexbase.x < middlebase.x && thumb.x < thumbbase.x)) {
-            if(pinkybase.y < pinky.y){
-                return "thumb out index up";
-            }
-            return "thumb out index up pinky up";
-        }
-        if(pinkybase.y < pinky.y){
-            return "raised index thumb in";
-        }
-        return "raised index thumb in pinky up";
-    }
-
-    if(indexbase.y > index.y && middlebase.y > middle.y && ringbase.y < ring.y){
-        if((indexbase.x > middlebase.x && thumb.x > thumbbase.x) || (indexbase.x < middlebase.x && thumb.x < thumbbase.x)) {
-            if(pinkybase.y < pinky.y){
-                return "thumb out index up middle up";
-            }
-            return "thumb out index up middle up pinky up";
-        }
-        if(pinkybase.y < pinky.y){
-            return "raised index raised middle thumb in";
-        }
-        return "raised index raised middle thumb in pinky up";
-    }
-
-    if(indexbase.y > index.y && middlebase.y > middle.y && ringbase.y > ring.y){
-        if((indexbase.x > middlebase.x && thumb.x > thumbbase.x) || (indexbase.x < middlebase.x && thumb.x < thumbbase.x)) {
-            if(pinkybase.y < pinky.y){
-                return "thumb out index up middle up ring up";
-            }
-            return "palm";
-        }
-        if(pinkybase.y < pinky.y){
-            return "raised index raised middle ring up thumb in";
-        }
-        return "raised index raised middle thumb in ring up pinky up";
-    }
-
-    if(indexbase.y < index.y && middlebase.y > middle.y && ringbase.y < ring.y && pinkybase.y < pinky.y){
-        return "fuck you";
-    }
+    if(!ref || !thumb || !index || !middle || !ring || !pinky) return 0;
 
     //yay
-    // if(thumb.y>yayref.y && ring.y>yayref.y && pinky.y>yayref.y && index.y < yayref.y && middle.y <yayref.y){
-    //     return "peace sign";
-    // }
+    if(thumb.y>ref.y && ring.y>ref.y && pinky.y>ref.y && index.y < ref.y && middle.y <ref.y){
+        return 1;
+    }
 
-    return "everything else";
+    return 2;
 }
 
 function Page() {
@@ -257,6 +194,11 @@ function Page() {
             </div>
             <p>hand type: {isClosedFist(landmarkData)}</p>
         </div>
+            {/* <pre>{JSON.stringify(vectors, null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(calculateHandVectors(landmarkData), null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(landmarkData, null, 2)}</pre> */}
+            <pre>{isClosedFist(landmarkData)}</pre>
+        </>
     );
 }
 
