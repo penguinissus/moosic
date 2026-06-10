@@ -216,7 +216,7 @@ function Page() {
     }
 
     return (
-        <>
+        <div class="Page">
             <h1>Moosic</h1>
             <div className="webcam-container" style={{ position: 'relative', width: '640px', height: '480px' }}>
                 <Webcam 
@@ -238,11 +238,8 @@ function Page() {
                     }}
                 />
             </div>
-            {/* <pre>{JSON.stringify(vectors, null, 2)}</pre> */}
-            {/* <pre>{JSON.stringify(calculateHandVectors(landmarkData), null, 2)}</pre> */}
-            {/* <pre>{JSON.stringify(landmarkData, null, 2)}</pre> */}
             <p>hand type: {isClosedFist(landmarkData)}</p>
-        </>
+        </div>
     );
 }
 
