@@ -1,0 +1,4 @@
+.Page {
+    display: flex;
+    flex-direction: column;
+}

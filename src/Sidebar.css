@@ -1,0 +1,24 @@
+:root {
+    --sidebar-width: 25vw;
+    --sidebar-bg: #c27171;
+    --text-colour: #000000;
+    --font-size: 40px;
+    --padding: 2rem;
+}
+
+.Sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    color: var(--text-colour);
+    font-size: var(--font-size);
+
+    padding: var(--padding);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    display: flex;
+    flex-direction: column;
+}

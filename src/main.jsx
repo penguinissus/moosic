@@ -6,7 +6,6 @@ import Page from './Page.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Page />
     <App />
   </StrictMode>,
 )
