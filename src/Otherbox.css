@@ -1,3 +1,11 @@
+:root {
+    --white: #FFFCF2;
+    --peach: #FFC1A6;
+    --grey: #403D39;
+    --black: #252422;
+    --orange: #EB5E28;
+}
+
 .Otherbox {
     /* background: blue; */
     height: 100vh;

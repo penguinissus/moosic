@@ -3,7 +3,6 @@ import Webcam from "react-webcam";
 import { FilesetResolver, HandLandmarker } from '@mediapipe/tasks-vision';
 import './Page.css';
 import Otherbox from './Otherbox.jsx';
-import Thirdbox from './Thirdbox.jsx';
 
 // MediaPipe Hand tracking indices mapping layout array
 const HAND_CONNECTIONS = [
