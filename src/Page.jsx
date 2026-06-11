@@ -14,6 +14,22 @@ import noteAb from './assets/Ab.wav';
 import noteA from './assets/A.wav';
 import noteBb from './assets/Bb.wav';
 import noteB from './assets/B.wav';
+
+import image1 from './assets/1.png';
+import image1m from './assets/1m.png';
+import image2 from './assets/2.png';
+import image2m from './assets/2m.png';
+import image3 from './assets/3.png';
+import image3m from './assets/3m.png';
+import image4 from './assets/4.png';
+import image4m from './assets/4m.png';
+import image5 from './assets/5.png';
+import image5m from './assets/5m.png';
+import image6 from './assets/6.png';
+import image6m from './assets/6m.png';
+import image7 from './assets/7.png';
+import image7m from './assets/7m.png';
+
 import './Page.css';
 import Otherbox from './Otherbox.jsx';
 
@@ -59,118 +75,13 @@ var current_scale = Ab_SCALE;
 //         });
 // }
 
-function isClosedFist(landmarkData) {
-    if (!landmarkData || landmarkData.length === 0) return false;
-    const landmarks = landmarkData[0];
-    if (!landmarks) return false;
-    const thumb = landmarks[4];
-    const thumbbase = landmarks[2];
-    const index = landmarks[8];
-    const indexbase = landmarks[6];
-    const middle = landmarks[12];
-    const middlebase = landmarks[10];
-    const ring = landmarks[16];
-    const ringbase = landmarks[14];
-    const pinky = landmarks[20];
-    const pinkybase = landmarks[18];
-
-    if(!thumb || !thumbbase || !index || !indexbase || !middle || !middlebase || !ring || !ringbase || !pinky || !pinkybase) return 0;
-
-    //thumb in: thumb.x < thumbbase.x
-    //finger raised: tip.y < base.y
-    if (index.y > indexbase.y && middle.y > middlebase.y && ring.y>ringbase.y){
-        if (indexbase.x > middlebase.x) {
-            //thumb in
-            if(thumb.x < thumbbase.x) {
-                if (pinky.y < pinkybase.y) {
-                    return current_scale[0]+"m";
-                }
-                return current_scale[0];
-            }
-            if (pinky.y < pinkybase.y) {
-                return current_scale[1]+"m"; 
-            }
-            return current_scale[1];
-        }
-        //thumb out
-        if(thumb.x < thumbbase.x) {
-            if (pinky.y < pinkybase.y) {
-                return current_scale[1]+"m";      
-            }
-            return current_scale[1];
-        }
-        if (pinky.y < pinkybase.y) {
-            return current_scale[0]+"m";        
-        }
-        return current_scale[0];
-    }
-    if (index.y < indexbase.y && middle.y > middlebase.y && ring.y > ringbase.y){
-        if (indexbase.x > middlebase.x) {
-            //thumb in
-            if(thumb.x < thumbbase.x) {
-                if (pinky.y < pinkybase.y) {
-                    return current_scale[2]+"m"; 
-                }
-                return current_scale[2];
-            }
-            if (pinky.y < pinkybase.y) {
-                return current_scale[3]+"m";       
-            }
-            return current_scale[3];
-        }
-        //thumb out
-        if(thumb.x < thumbbase.x) {
-            if (pinky.y < pinkybase.y) {
-                return current_scale[3]+"m";    
-            }
-            return current_scale[3];
-        }
-        if (pinky.y < pinkybase.y) {
-            return current_scale[2]+"m";       
-        }
-        return current_scale[2];
-    }
-    if (index.y < indexbase.y && middle.y < middlebase.y && ring.y > ringbase.y){
-        if (indexbase.x > middlebase.x) {
-            //thumb in
-            if(thumb.x < thumbbase.x) {
-                if (pinky.y < pinkybase.y) {
-                    return current_scale[4]+"m";   
-                }
-                return current_scale[4];
-            }
-            if (pinky.y < pinkybase.y) {
-                return current_scale[5]+"m";      
-            }
-            return current_scale[5];
-        }
-        //thumb out
-        if(thumb.x < thumbbase.x) {
-            if (pinky.y < pinkybase.y) {
-                return current_scale[5]+"m";       
-            }
-            return current_scale[5];
-        }
-        if (pinky.y < pinkybase.y) {
-            return current_scale[4]+"m";        
-        }
-        return current_scale[4];
-    }
-    if (index.y < indexbase.y && middle.y < middlebase.y && ring.y < ringbase.y){
-        if (pinky.y < pinkybase.y) {
-            return current_scale[6]+"m";           
-        }
-        return current_scale[6];
-    }
-    return "everything else";
-}
-
 function Page() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const landmarkerRef = useRef(null);
     const lastGestureRef = useRef(null);
     const [landmarkData, setLandmarkData] = useState(null);
+    const [currentImage, setCurrentImage] = useState(image1);
 
     const [playC] = useSound(noteC);
     const [playDb] = useSound(noteDb);
@@ -193,6 +104,112 @@ function Page() {
         "G": playG, "Ab": playAb,
         "A": playA, "Bb": playBb,
         "B": playB
+    }
+
+    function isClosedFist(landmarkData) {
+        if (!landmarkData || landmarkData.length === 0) return false;
+        const landmarks = landmarkData[0];
+        if (!landmarks) return false;
+        const thumb = landmarks[4];
+        const thumbbase = landmarks[2];
+        const index = landmarks[8];
+        const indexbase = landmarks[6];
+        const middle = landmarks[12];
+        const middlebase = landmarks[10];
+        const ring = landmarks[16];
+        const ringbase = landmarks[14];
+        const pinky = landmarks[20];
+        const pinkybase = landmarks[18];
+
+        if(!thumb || !thumbbase || !index || !indexbase || !middle || !middlebase || !ring || !ringbase || !pinky || !pinkybase) return 0;
+
+        //thumb in: thumb.x < thumbbase.x
+        //finger raised: tip.y < base.y
+        if (index.y > indexbase.y && middle.y > middlebase.y && ring.y>ringbase.y){
+            if (indexbase.x > middlebase.x) {
+                //thumb in
+                if(thumb.x < thumbbase.x) {
+                    if (pinky.y < pinkybase.y) {
+                        return current_scale[0]+"m";
+                    }
+                    return current_scale[0];
+                }
+                if (pinky.y < pinkybase.y) {
+                    return current_scale[1]+"m"; 
+                }
+                return current_scale[1];
+            }
+            //thumb out
+            if(thumb.x < thumbbase.x) {
+                if (pinky.y < pinkybase.y) {
+                    return current_scale[1]+"m";      
+                }
+                return current_scale[1];
+            }
+            if (pinky.y < pinkybase.y) {
+                return current_scale[0]+"m";        
+            }
+            return current_scale[0];
+        }
+        if (index.y < indexbase.y && middle.y > middlebase.y && ring.y > ringbase.y){
+            if (indexbase.x > middlebase.x) {
+                //thumb in
+                if(thumb.x < thumbbase.x) {
+                    if (pinky.y < pinkybase.y) {
+                        return current_scale[2]+"m"; 
+                    }
+                    return current_scale[2];
+                }
+                if (pinky.y < pinkybase.y) {
+                    return current_scale[3]+"m";       
+                }
+                return current_scale[3];
+            }
+            //thumb out
+            if(thumb.x < thumbbase.x) {
+                if (pinky.y < pinkybase.y) {
+                    return current_scale[3]+"m";    
+                }
+                return current_scale[3];
+            }
+            if (pinky.y < pinkybase.y) {
+                return current_scale[2]+"m";       
+            }
+            return current_scale[2];
+        }
+        if (index.y < indexbase.y && middle.y < middlebase.y && ring.y > ringbase.y){
+            if (indexbase.x > middlebase.x) {
+                //thumb in
+                if(thumb.x < thumbbase.x) {
+                    if (pinky.y < pinkybase.y) {
+                        return current_scale[4]+"m";   
+                    }
+                    return current_scale[4];
+                }
+                if (pinky.y < pinkybase.y) {
+                    return current_scale[5]+"m";      
+                }
+                return current_scale[5];
+            }
+            //thumb out
+            if(thumb.x < thumbbase.x) {
+                if (pinky.y < pinkybase.y) {
+                    return current_scale[5]+"m";       
+                }
+                return current_scale[5];
+            }
+            if (pinky.y < pinkybase.y) {
+                return current_scale[4]+"m";        
+            }
+            return current_scale[4];
+        }
+        if (index.y < indexbase.y && middle.y < middlebase.y && ring.y < ringbase.y){
+            if (pinky.y < pinkybase.y) {
+                return current_scale[6]+"m";           
+            }
+            return current_scale[6];
+        }
+        return "everything else";
     }
 
     useEffect(() => {
@@ -300,9 +317,8 @@ function Page() {
             <Otherbox />
             <div className="otherstuff">
                 <div className="Thirdbox">
-                    <p>Current Note</p>
-                    <p>hand type: {isClosedFist(landmarkData)}</p>
-                    <button onClick={() => playC()}>Test sound</button>
+                    <p>Current Chord: {isClosedFist(landmarkData)}</p>
+                    <img src={image1}></img>
                 </div>
                 <div className="webcamAndText">
                     <div className="webcam-container" style={{ position: 'relative', width: '640px', height: '480px' }}>

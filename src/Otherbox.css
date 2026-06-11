@@ -13,3 +13,14 @@
     top: 0;
     width: 70vw;    
 }
+
+.Otherbox p {
+
+}
+
+.Otherbox img {
+    position: relative;
+    top: -100px;
+    width:50vw;
+    height: auto;
+}

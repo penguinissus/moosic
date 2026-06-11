@@ -22,6 +22,22 @@
     width: 640px;
     height: calc(100vh - 460px);
     /* height: calc(100vh - 550px); */
+    display: flex;
+    flex-direction: column;
+}
+
+.Thirdbox p {
+    justify-content: center;
+    align-items: center;
+    padding-left: 6rem;
+    padding-top: 5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.Thirdbox img {
+    /* padding-left: 5rem; */
+    position: relative;
+    top: -70px;
 }
 
 .otherstuff {
