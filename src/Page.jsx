@@ -23,6 +23,12 @@ const HAND_CONNECTIONS = [
 const CAM_WIDTH = 640;
 const CAM_HEIGHT = 480;
 
+var jazz_mode = true;
+
+const C_SCALE = ["C", "D", "E", "F", "G", "A", "B"];
+const Ab_SCALE = ["Ab", "Bb", "C", "Db", "Eb", "F", "G"];
+var current_scale = Ab_SCALE;
+
 // Function that doesn't freaking work
 // function calculateHandVectors(landmarkData) {
 //     console.log("landmarkData: ", landmarkData);
@@ -64,84 +70,84 @@ function isClosedFist(landmarkData) {
             //thumb in
             if(thumb.x < thumbbase.x) {
                 if (pinky.y < pinkybase.y) {
-                    return "C+";
+                    return current_scale[0]+"m";
                 }
-                return "C";
+                return current_scale[0];
             }
             if (pinky.y < pinkybase.y) {
-                return "D+;" 
+                return current_scale[1]+"m"; 
             }
-            return "D";
+            return current_scale[1];
         }
         //thumb out
         if(thumb.x < thumbbase.x) {
             if (pinky.y < pinkybase.y) {
-                return "D+";        
+                return current_scale[1]+"m";      
             }
-            return "D";
+            return current_scale[1];
         }
         if (pinky.y < pinkybase.y) {
-            return "C+";            
+            return current_scale[0]+"m";        
         }
-        return "C";
+        return current_scale[0];
     }
     if (index.y < indexbase.y && middle.y > middlebase.y && ring.y > ringbase.y){
         if (indexbase.x > middlebase.x) {
             //thumb in
             if(thumb.x < thumbbase.x) {
                 if (pinky.y < pinkybase.y) {
-                    return "E+";
+                    return current_scale[2]+"m"; 
                 }
-                return "E";
+                return current_scale[2];
             }
             if (pinky.y < pinkybase.y) {
-                return "F+";        
+                return current_scale[3]+"m";       
             }
-            return "F";
+            return current_scale[3];
         }
         //thumb out
         if(thumb.x < thumbbase.x) {
             if (pinky.y < pinkybase.y) {
-                return "F+";        
+                return current_scale[3]+"m";    
             }
-            return "F";
+            return current_scale[3];
         }
         if (pinky.y < pinkybase.y) {
-            return "E+";            
+            return current_scale[2]+"m";       
         }
-        return "E";
+        return current_scale[2];
     }
     if (index.y < indexbase.y && middle.y < middlebase.y && ring.y > ringbase.y){
         if (indexbase.x > middlebase.x) {
             //thumb in
             if(thumb.x < thumbbase.x) {
                 if (pinky.y < pinkybase.y) {
-                    return "G+";   
+                    return current_scale[4]+"m";   
                 }
-                return "G";
+                return current_scale[4];
             }
             if (pinky.y < pinkybase.y) {
-                return "A+";        
+                return current_scale[5]+"m";      
             }
-            return "A";
+            return current_scale[5];
         }
         //thumb out
         if(thumb.x < thumbbase.x) {
             if (pinky.y < pinkybase.y) {
-                return "A+";        
+                return current_scale[5]+"m";       
             }
-            return "A";
+            return current_scale[5];
         }
         if (pinky.y < pinkybase.y) {
-            return "G+";            
+            return current_scale[4]+"m";        
         }
-        return "G";
+        return current_scale[4];
     }
     if (index.y < indexbase.y && middle.y < middlebase.y && ring.y < ringbase.y){
         if (pinky.y < pinkybase.y) {
-            return "B+";            
+            return current_scale[6]+"m";           
         }
-        return "B";
+        return current_scale[6];
     }
     return "everything else";
 }
