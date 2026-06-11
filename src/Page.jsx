@@ -94,9 +94,8 @@ function Page() {
     const canvasRef = useRef(null);
     const landmarkerRef = useRef(null);
     const lastGestureRef = useRef(null);
-    // const setCurrentImageRef = useRef(null);
-    // const [landmarkData, setLandmarkData] = useState(null);
-    // const [currentImage, setCurrentImage] = useState(image1);
+    const [landmarkData, setLandmarkData] = useState(null);
+    const [currentImage, setCurrentImage] = useState(image1);
 
     const currentHowlRef = useRef(null);
     const noteMap = {
@@ -107,16 +106,6 @@ function Page() {
         "G": noteG, "Ab": noteAb, "Gm": noteGm, "Abm": noteAbm,
         "A": noteA, "Bb": noteBb, "Am": noteAm, "Bbm": noteBbm,
         "B": noteB, "Bm": noteBm
-    }
-
-    const imageIndexMap = {
-        [current_scale[0]]: image1, [current_scale[0]+"m"]: image1m,
-        [current_scale[1]]: image2, [current_scale[1]+"m"]: image2m,
-        [current_scale[2]]: image3, [current_scale[2]+"m"]: image3m,
-        [current_scale[3]]: image4, [current_scale[3]+"m"]: image4m,
-        [current_scale[4]]: image5, [current_scale[4]+"m"]: image5m,
-        [current_scale[5]]: image6, [current_scale[5]+"m"]: image6m,
-        [current_scale[6]]: image7, [current_scale[6]+"m"]: image7m,
     }
 
     function isClosedFist(landmarkData) {
@@ -300,9 +289,6 @@ function Page() {
                             loop: true, 
                         });
                         currentHowlRef.current.play();
-                        // if(currentImageRef.current) {
-                        //     currentImageRef.current.src = imageIndexMap[detected];
-                        // }
                     }
                 }
 
@@ -346,7 +332,7 @@ function Page() {
             }
             lastVideoTime = video.currentTime;
         }
-        //ok
+
         requestAnimationFrame(renderLoop);
     }
 
