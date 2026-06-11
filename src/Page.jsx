@@ -2,18 +2,32 @@ import React, { useRef, useEffect, useState } from 'react';
 import Webcam from "react-webcam";
 import { FilesetResolver, HandLandmarker } from '@mediapipe/tasks-vision';
 import useSound from 'use-sound';
-import noteC from './assets/C.wav';
-import noteDb from './assets/Db.wav';
-import noteD from './assets/D.wav';
-import noteEb from './assets/Eb.wav';
-import noteE from './assets/E.wav';
-import noteF from './assets/F.wav';
-import noteGb from './assets/Gb.wav';
-import noteG from './assets/G.wav';
-import noteAb from './assets/Ab.wav';
-import noteA from './assets/A.wav';
-import noteBb from './assets/Bb.wav';
-import noteB from './assets/B.wav';
+import { Howl} from 'howler';
+
+import noteC from './assets/C.mp3';
+import noteCm from './assets/Cm.mp3';
+import noteDb from './assets/Db.mp3';
+import noteDbm from './assets/Dbm.mp3'
+import noteD from './assets/D.mp3';
+import noteDm from './assets/Dm.mp3';
+import noteEb from './assets/Eb.mp3';
+import noteEbm from './assets/Ebm.mp3';
+import noteE from './assets/E.mp3';
+import noteEm from './assets/Em.mp3';
+import noteF from './assets/F.mp3';
+import noteFm from './assets/Fm.mp3';
+import noteGb from './assets/Gb.mp3';
+import noteGbm from './assets/Gbm.m4a';
+import noteG from './assets/G.m4a';
+import noteGm from './assets/Gm.m4a';
+import noteAb from './assets/Ab.m4a';
+import noteAbm from './assets/Abm.m4a';
+import noteA from './assets/A.m4a';
+import noteAm from './assets/Am.m4a';
+import noteBb from './assets/Bb.m4a';
+import noteBbm from './assets/Bbm.m4a';
+import noteB from './assets/B.m4a';
+import noteBm from './assets/Bm.m4a';
 
 import image1 from './assets/1.png';
 import image1m from './assets/1m.png';
@@ -83,27 +97,15 @@ function Page() {
     const [landmarkData, setLandmarkData] = useState(null);
     const [currentImage, setCurrentImage] = useState(image1);
 
-    const [playC] = useSound(noteC);
-    const [playDb] = useSound(noteDb);
-    const [playD] = useSound(noteD);
-    const [playEb] = useSound(noteEb);
-    const [playE] = useSound(noteE);
-    const [playF] = useSound(noteF);
-    const [playGb] = useSound(noteGb);
-    const [playG] = useSound(noteG);
-    const [playAb] = useSound(noteAb);
-    const [playA] = useSound(noteA);
-    const [playBb] = useSound(noteBb);
-    const [playB] = useSound(noteB);
-
+    const currentHowlRef = useRef(null);
     const noteMap = {
-        "C": playC, "Db": playDb,
-        "D": playD, "Eb": playEb,
-        "E": playE, 
-        "F": playF, "Gb": playGb,
-        "G": playG, "Ab": playAb,
-        "A": playA, "Bb": playBb,
-        "B": playB
+        "C": noteC, "Db": noteDb, "Cm": noteCm, "Dbm": noteDbm,
+        "D": noteD, "Eb": noteEb, "Dm": noteDm, "Ebm": noteEbm,
+        "E": noteE, "Em": noteEm,
+        "F": noteF, "Gb": noteGb, "Fm": noteFm, "Gbm": noteGbm,
+        "G": noteG, "Ab": noteAb, "Gm": noteGm, "Abm": noteAbm,
+        "A": noteA, "Bb": noteBb, "Am": noteAm, "Bbm": noteBbm,
+        "B": noteB, "Bm": noteBm
     }
 
     function isClosedFist(landmarkData) {
@@ -205,6 +207,14 @@ function Page() {
         }
         if (index.y < indexbase.y && middle.y < middlebase.y && ring.y < ringbase.y){
             if (pinky.y < pinkybase.y) {
+                if (indexbase.x > middlebase.x) {
+                    if(thumb.x > thumbbase.x) {
+                        return "stop";
+                    }
+                }
+                if(thumb.x < thumbbase.x) {
+                    return "stop";
+                }
                 return current_scale[6]+"m";           
             }
             return current_scale[6];
@@ -264,13 +274,22 @@ function Page() {
 
             if (detections.landmarks && detections.landmarks.length > 0) {
                 setLandmarkData(detections.landmarks);
-
                 const detected = isClosedFist(detections.landmarks);
                 if (detected !== lastGestureRef.current) {
-                    console.log("Hey I'm here");
-                    const baseNote = detected.replace("m", "");
-                    if (noteMap[baseNote]) noteMap[baseNote]();
                     lastGestureRef.current = detected;
+                    if (detected == "stop") {
+                        currentHowlRef.current?.stop();
+                    }
+                    if(noteMap[detected]){
+                        if(currentHowlRef.current) {
+                            currentHowlRef.current.stop();
+                        }
+                        currentHowlRef.current = new Howl({
+                            src: [noteMap[detected]],
+                            loop: true, 
+                        });
+                        currentHowlRef.current.play();
+                    }
                 }
 
                 for (const landmarks of detections.landmarks) {
@@ -305,6 +324,11 @@ function Page() {
                         // ctx.fillText(index, point.x * canvas.width + 6, point.y * canvas.height - 6);
                     });
                 }
+            } else {
+                // if (lastGestureRef.current === "stop") {
+                //     currentHowlRef.current?.stop();
+                // }
+                // lastGuestureRef.current = null;
             }
             lastVideoTime = video.currentTime;
         }

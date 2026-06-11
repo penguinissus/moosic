@@ -14,13 +14,17 @@
     width: 70vw;    
 }
 
-.Otherbox p {
-
-}
+/* .Otherbox p {
+    background-color: blue;
+    position: relative;
+    top: 5px;
+    z-index: 5;
+} */
 
 .Otherbox img {
     position: relative;
-    top: -100px;
+    top: -50px;
     width:50vw;
     height: auto;
+    z-index: 3;
 }

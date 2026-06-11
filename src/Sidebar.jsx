@@ -10,7 +10,7 @@ function Sidebar() {
                 1. Hold up your hand <br></br>
                 2. Make sure your hand is in the camera frame <br></br>
                 3. Follow the chart in the middle <br></br>
-                4. Just listen to the music happen
+                4. Hold up open palm to stop the music
             </p>
         </div>
     )
